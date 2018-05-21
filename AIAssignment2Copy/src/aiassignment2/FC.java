@@ -5,7 +5,6 @@
  */
 package aiassignment2;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -40,7 +39,10 @@ public class FC extends SearchMethod {
     
 
     @Override
-    public boolean methodEntails(ArrayList<String> agenda, ArrayList<String> clauses, ArrayList<Integer> count, String query) {
+    public boolean methodEntails(String query) {
+        ArrayList<String> agenda = kb.agenda;
+        ArrayList<String> clauses = kb.clause;
+        ArrayList<Integer> count = kb.count;
         a=query;
     while(!agenda.isEmpty()){
         String ask = agenda.remove(0);

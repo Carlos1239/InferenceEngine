@@ -13,10 +13,12 @@ import java.util.ArrayList;
  */
 public class BC extends SearchMethod {
     ArrayList<String> agenda;
+    KBase KB;
     public BC(){
     code ="BC";
     entails = new ArrayList<>();
     agenda = new ArrayList<>();
+    
     }
 
     @Override
@@ -43,35 +45,37 @@ public class BC extends SearchMethod {
     
 
     @Override
-    public boolean methodEntails(ArrayList<String> fact, ArrayList<String> clauses, ArrayList<Integer> count, String query) {
+    public boolean methodEntails(String query) {
+        ArrayList<String> fact = KB.fact;
+        ArrayList<String> clauses = KB.clause;
         agenda.add(query);
         a=query;
-    while(!agenda.isEmpty()){
-        String ask = agenda.remove(agenda.size()-1);
-        entails.add(ask);
-        if(!fact.contains(ask)){
-            ArrayList<String> q = new ArrayList<>();
-            for(int i=0;i<clauses.size();i++){
-            if(premiseContains(clauses.get(i),ask)){
-                ArrayList<String> temp = getClauses(clauses.get(i),agenda);
-                for (int x=0; x<temp.size();x++){
-                    q.add(temp.get(x));
-                }
-                }
-            }
-            if(q.isEmpty()){
-                return false;
-            }
-            else
-            {
-                for(int i =0; i<q.size();i++){
-                    if(!entails.contains(q.get(i))){
-                        agenda.add(q.get(i));
+        while(!agenda.isEmpty()){
+            String ask = agenda.remove(agenda.size()-1);
+            entails.add(ask);
+            if(!fact.contains(ask)){
+                ArrayList<String> q = new ArrayList<>();
+                for(int i=0;i<clauses.size();i++){
+                if(premiseContains(clauses.get(i),ask)){
+                    ArrayList<String> temp = getClauses(clauses.get(i),agenda);
+                    for (int x=0; x<temp.size();x++){
+                        q.add(temp.get(x));
+                    }
                     }
                 }
+                if(q.isEmpty()){
+                    return false;
+                }
+                else
+                {
+                    for(int i =0; i<q.size();i++){
+                        if(!entails.contains(q.get(i))){
+                            agenda.add(q.get(i));
+                        }
+                    }
+                }
+
             }
-        
-        }
         
     }
         return true;
@@ -94,7 +98,6 @@ public class BC extends SearchMethod {
     @Override
     public boolean premiseContains(String clause, String ask) {
         String premise = clause.split("=>")[1];
-      
         return premise.equals(ask);
     }
     

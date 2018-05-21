@@ -1,33 +1,19 @@
-
-import aiassignment2.BC;
-import aiassignment2.FC;
-import aiassignment2.SearchMethod;
-import aiassignment2.TT;
+package aiassignment2;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class AIAssignment2 {
-
-    /**
-     */
     public static AIAssignment2 iengine;
     public static String query;
-    public static ArrayList<String> agenda;
-    public static ArrayList<String> clauses;
-    public static ArrayList<Integer> count;
     public static final int METHOD_COUNT = 3;
     public static SearchMethod[] aMethods;
 
     public static void main(String[] args) {
         
         InitMethods();
-        agenda = new ArrayList<>();
-        clauses = new ArrayList<>();
-        count = new ArrayList<>();
         
         if(args.length <2){
             System.out.println("Usage:iengine <method> <filename>");
@@ -61,23 +47,8 @@ public class AIAssignment2 {
                     System.out.println("Search method identified by " + method + " not implemented. Methods are case sensitive.");
                     System.exit(1);
             }
-           
-      
-        
-//        if(clauses!=null){
-//            System.out.print(clauses);
-//        }
-        
-//        if(agenda!=null){
-//            System.out.print(agenda);
-//        }
-        
-        
-        String result = thisMethod.methodOutput(thisMethod.methodEntails(agenda, clauses, count, query));
-        System.out.print(result);
-
-
-        
+        String result = thisMethod.methodOutput(thisMethod.methodEntails(query));
+        System.out.print(result);       
     }
     
     private static void InitMethods(){
@@ -85,9 +56,6 @@ public class AIAssignment2 {
         aMethods[0]= new FC();
         aMethods[1]=new BC();
         aMethods[2]=new TT();
-        //TT
-        //FC
-        //BC
     }
     
     private static void readProblemFile(String fileName) // this allow only one puzzle to be specified in a problem file 
@@ -105,14 +73,8 @@ public class AIAssignment2 {
                             line = buff.readLine();
                             tell=line.replaceAll("\\s","");
                             sentencesArray = tell.split(";");
-                            for (int i=0; i<sentencesArray.length;i++){
-                                if(!sentencesArray[i].contains("=>"))
-                                    agenda.add(sentencesArray[i]);
-                                else{
-                                    clauses.add(sentencesArray[i]);
-                                    count.add(sentencesArray[i].split("&").length);
-                                }
-                            }
+                            KBase KB = new KBase(sentencesArray);
+                            
                             
                         }
                         String ask;
@@ -122,10 +84,6 @@ public class AIAssignment2 {
                             ask = line.replaceAll("\\s","");
                             query = ask;
                         }
-                        
-                        
-			
-			
 			
 		}
 		catch(FileNotFoundException ex)
