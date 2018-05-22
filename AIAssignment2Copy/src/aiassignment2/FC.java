@@ -13,16 +13,22 @@ import java.util.Arrays;
  * @author Carl
  */
 public class FC extends SearchMethod {
-   
+    ArrayList<String> agenda;
+    ArrayList<String> clauses;
+    ArrayList<Integer> count;
     public FC(){
     code= "FC";
     entails = new ArrayList<>();
+    agenda= new ArrayList<>();
+    clauses = new ArrayList<>();
+    count = new ArrayList<>();
     }
     
     
     @Override
     public String methodOutput(boolean entail) {
-       String result = "";
+       String result;
+        result = "";
        if(entail==true){
            result = "YES:";
            for(int i=0; i<entails.size();i++){
@@ -39,10 +45,10 @@ public class FC extends SearchMethod {
     
 
     @Override
-    public boolean methodEntails(String query) {
-        ArrayList<String> agenda = kb.agenda;
-        ArrayList<String> clauses = kb.clause;
-        ArrayList<Integer> count = kb.count;
+    public boolean methodEntails(String query, KBase kb) {
+        agenda = kb.getAgenda();
+        clauses = kb.getClauses();
+        count = kb.getCount();
         a=query;
     while(!agenda.isEmpty()){
         String ask = agenda.remove(0);

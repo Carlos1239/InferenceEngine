@@ -12,12 +12,12 @@ import java.util.ArrayList;
  * @author Carl
  */
 public abstract class SearchMethod {
-    public KBase kb;
+   
     public String code;
     public ArrayList<String> entails;
     public String a;
     public abstract String methodOutput(boolean result);
-    public abstract boolean methodEntails(String query);
+    public abstract boolean methodEntails(String query, KBase kb);
     public abstract boolean premiseContains(String clause, String ask);
     
 }

@@ -45,9 +45,9 @@ public class BC extends SearchMethod {
     
 
     @Override
-    public boolean methodEntails(String query) {
-        ArrayList<String> fact = KB.fact;
-        ArrayList<String> clauses = KB.clause;
+    public boolean methodEntails(String query, KBase kb) {
+        ArrayList<String> fact = KB.getFact();
+        ArrayList<String> clauses = KB.getClauses();
         agenda.add(query);
         a=query;
         while(!agenda.isEmpty()){

@@ -14,13 +14,14 @@ public class AIAssignment2 {
     public static void main(String[] args) {
         
         InitMethods();
+        KBase kb = new KBase();
         
         if(args.length <2){
             System.out.println("Usage:iengine <method> <filename>");
             System.exit(1);
         }
         try{
-            readProblemFile(args[1]);
+            readProblemFile(args[1], kb);
             
         }catch(Exception e){
             e.printStackTrace();
@@ -47,7 +48,7 @@ public class AIAssignment2 {
                     System.out.println("Search method identified by " + method + " not implemented. Methods are case sensitive.");
                     System.exit(1);
             }
-        String result = thisMethod.methodOutput(thisMethod.methodEntails(query));
+        String result = thisMethod.methodOutput(thisMethod.methodEntails(query,kb));
         System.out.print(result);       
     }
     
@@ -58,7 +59,7 @@ public class AIAssignment2 {
         aMethods[2]=new TT();
     }
     
-    private static void readProblemFile(String fileName) // this allow only one puzzle to be specified in a problem file 
+    private static void readProblemFile(String fileName, KBase kb) // this allow only one puzzle to be specified in a problem file 
 	{
 		String[] sentencesArray;
 		try
@@ -68,18 +69,19 @@ public class AIAssignment2 {
 			BufferedReader buff = new BufferedReader(reader);
 			
                         String tell;
-                        String line = buff.readLine().toUpperCase();
-                        if(line.equalsIgnoreCase("TELL")){
+                        String line = buff.readLine();
+                        if(line.equalsIgnoreCase("Tell")){
                             line = buff.readLine();
                             tell=line.replaceAll("\\s","");
                             sentencesArray = tell.split(";");
-                            KBase KB = new KBase(sentencesArray);
+                         
+                            kb.KBaseSenteces(sentencesArray);
                             
                             
                         }
                         String ask;
-                        line = buff.readLine().toUpperCase();
-                        if(line.equalsIgnoreCase("ASK")){
+                        line = buff.readLine();
+                        if(line.equalsIgnoreCase("Ask")){
                             line = buff.readLine();
                             ask = line.replaceAll("\\s","");
                             query = ask;

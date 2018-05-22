@@ -18,14 +18,16 @@ public class KBase{
     ArrayList<String> fact;
     String query;
     String[] sentences;
-    public KBase(String[] s){
-        sentences = s;
-        
+    public KBase(){
+        agenda = new ArrayList();
+        clause = new ArrayList();
+        count = new ArrayList();
+        fact = new ArrayList();
     }  
     
-    public void KBaseSenteces(){
-        
-        for (String sentence : sentences) {
+    public void KBaseSenteces(String[] s){
+
+        for (String sentence : s) {
             if (!sentence.contains("=>")) {
                 agenda.add(sentence);
                 fact.add(sentence);
@@ -34,5 +36,18 @@ public class KBase{
                 count.add(sentence.split("&").length);
             }
         }
+    }
+    
+    public ArrayList<String> getAgenda(){
+        return agenda;
+    }
+    public ArrayList<String> getFact(){
+        return fact;
+    }
+    public ArrayList<String> getClauses(){
+        return clause;
+    }
+    public ArrayList<Integer> getCount(){
+        return count;
     }
 }

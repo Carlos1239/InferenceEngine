@@ -22,7 +22,7 @@ public class TT extends SearchMethod{
     }
 
     @Override
-    public boolean methodEntails(ArrayList<String> agenda, ArrayList<String> clauses, ArrayList<Integer> count, String query) {
+    public boolean methodEntails(String query, KBase kb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
