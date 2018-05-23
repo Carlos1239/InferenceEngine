@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Carl
+ * @author Ann
  */
 public class TT extends SearchMethod{
     public TT(){
@@ -23,7 +23,39 @@ public class TT extends SearchMethod{
 
     @Override
     public boolean methodEntails(String query, KBase kb) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int ValidModels = 0;
+		boolean[] models = new boolean[kb.count.length()] //number of symbols
+		int temp = models.length();
+		int ModSize = (temp)^2; //total number of permutations
+		for (int i =0; i< ModSize; i++){ // for each permutation of symbols
+			// set true/false
+			for (int j =0; j< kb.symbols.length(); j++){ //for each symbol in the permutation
+				models[j] = ((i&(1<<j)) !=0)
+			}
+			boolean allTrue = true
+			// check kb is true
+			for (int j =0; j< kb.agenda.length(); j++){//for each sentence
+				if(!models[j]) {
+					allTrue = false
+				}
+			}
+			//check if ask is true
+			boolean ask = false
+			if (askIsTrue()) {
+				ask = true
+			}
+			
+			if (allTrue && ask){
+				ValidModels ++;
+			}
+		}
+		
+		if (ValidModels > 0){
+			System.out.println('YES:' + ValidModels);
+		}
+		else{
+			System.out.println('NO');
+		}
     }
 
     @Override
