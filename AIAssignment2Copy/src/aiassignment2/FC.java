@@ -28,7 +28,6 @@ public class FC extends SearchMethod {
     @Override
     public String methodOutput(boolean entail) {
        String result;
-        result = "";
        if(entail==true){
            result = "YES:";
            for(int i=0; i<entails.size();i++){
@@ -50,22 +49,22 @@ public class FC extends SearchMethod {
         clauses = kb.getClauses();
         count = kb.getCount();
         a=query;
-    while(!agenda.isEmpty()){
-        String ask = agenda.remove(0);
-        entails.add(ask);
-        for(int i=0;i<clauses.size();i++){
-            if(premiseContains(clauses.get(i),ask)){
-                Integer x = count.get(i);
-                count.set(i,--x);
-                if(count.get(i)==0){
-                    String head = clauses.get(i).split("=>")[1];
-                    if(head.equals(query))
-                        return true;
-                    agenda.add(head);
+        while(!agenda.isEmpty()){
+            String ask = agenda.remove(0);
+            entails.add(ask);
+            for(int i=0;i<clauses.size();i++){
+                if(premiseContains(clauses.get(i),ask)){
+                    Integer x = count.get(i);
+                    count.set(i,--x);
+                    if(count.get(i)==0){
+                        String prove = clauses.get(i).split("=>")[1];
+                        if(prove.equals(query))
+                            return true;
+                        agenda.add(prove);
+                    }
                 }
             }
         }
-    }
         return false;
     }
 

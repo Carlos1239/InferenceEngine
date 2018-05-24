@@ -46,33 +46,34 @@ public class BC extends SearchMethod {
 
     @Override
     public boolean methodEntails(String query, KBase kb) {
+        //acquires information from Knowledge base
         ArrayList<String> fact = KB.getFact();
         ArrayList<String> clauses = KB.getClauses();
         agenda.add(query);
         a=query;
         while(!agenda.isEmpty()){
-            String ask = agenda.remove(agenda.size()-1);
+            String ask = agenda.remove(agenda.size()-1); //Backword chaining occurs similarly to DFS 
             entails.add(ask);
             if(!fact.contains(ask)){
                 ArrayList<String> q = new ArrayList<>();
                 for(int i=0;i<clauses.size();i++){
                 if(premiseContains(clauses.get(i),ask)){
                     ArrayList<String> temp = getClauses(clauses.get(i),agenda);
-                    for (int x=0; x<temp.size();x++){
-                        q.add(temp.get(x));
-                    }
+                        for (int x=0; x<temp.size();x++){
+                            q.add(temp.get(x));
+                        }
                     }
                 }
-                if(q.isEmpty()){
-                    return false;
-                }
-                else
-                {
+                if(!q.isEmpty()){
                     for(int i =0; i<q.size();i++){
                         if(!entails.contains(q.get(i))){
                             agenda.add(q.get(i));
                         }
                     }
+                }
+                else
+                {
+                    return false;
                 }
 
             }
