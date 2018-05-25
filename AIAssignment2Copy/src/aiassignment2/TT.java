@@ -40,6 +40,8 @@ public class TT extends SearchMethod{
 			for (int j =0; j< kb.getSymbols().size(); j++){ //for each symbol in the permutation
 				models[j] = ((i&(1<<j)) !=0);
 			}
+			kb.clauses = models; //setting KB state
+			
 			boolean allTrue = true;
 			// check kb is true
 			for (int j =0; j< kb.getClauses().size(); j++){//for each sentence
