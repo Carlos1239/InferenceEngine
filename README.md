@@ -7,7 +7,8 @@ USAGE:
 	iEngine.bat <file> <method>
 
 The system takes in an TELL and an ASK.
-TELL - A group of Horn clauses speerated by semicolons used to build the knowledge base (KB).
+TELL - A group of Horn clauses sep
+erated by semicolons used to build the knowledge base (KB).
 ASK - A proposition symbol used to check whether the KB is correct. This is the Query (q).
 
 iEngine takes two arguments.
@@ -20,7 +21,6 @@ Parameter	|Method Name
 TT		|Truth Table
 FC		|Forward Chaining
 BC		|Back Chaining
-
 
 Known Bugs:
  - Error handling is limited, invalid knowledge base symbols do not throw error
@@ -54,6 +54,39 @@ a&b&c=>d;d=>z;d&f=>g;g=>e;z=>e;a=>f;z1;z2;a;b;c
 ask
 e
 
+Truth table checking
+Based on test 3
+p | q | r | p=>q|q=>r|KB|
+0 | 0 | 0 | 1   |1   |1 |
+0 | 0 | 1 | 1   |1   |1 |
+0 | 1 | 0 | 1   |0   |0 |
+0 | 1 | 1 | 1   |1   |1 |
+1 | 0 | 0 | 0   |1   |0 |
+1 | 0 | 1 | 0   |1   |0 |
+1 | 1 | 0 | 1   |0   |0 |
+1 | 1 | 1 | 1   |1   |1 |
+
+With the intended output this would produce 4. Our implementation allowed us to get the model of the truth table for each symbol but not for implications.
+
+Forward chaining 
+Based on test 3
+	r
+      /  
+     q
+    /
+   p 
+   
+Forward chaining looks at the agenda which in this case is q and p and then compares that to the implications which are the clauses.
+From this it is determined that the forward chaining path is q -> p -> r.
+Backward chaining 
+Based on test 3
+	r
+      /  
+     q
+    /
+   p 
+Backward chaining looks at the goal which is r and try to prove the facts so the result is q -> r.
+
 Awknowledgements/Resources:
 https://stackoverflow.com/questions/6250114/java-bit-shifting-tutorial
 - Demonstarted how to bit shift which was used in TT for assigning the values in the models (each permuntation of sysmbols)
@@ -69,6 +102,8 @@ Summary Report:
 
 Contribution
 50/50
+Carl - 7671822
+FC algorithm & BC algorithm.
 
 Team Work
  - A GitHub repository was used so all members could contribute to the code base indepemndantly
