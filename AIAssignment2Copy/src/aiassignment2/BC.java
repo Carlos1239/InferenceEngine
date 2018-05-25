@@ -19,7 +19,7 @@ public class BC extends SearchMethod {
 
     ArrayList<String> clause;
 
-    KBase KB;
+    
     public BC(){
     code ="BC";
     entails = new ArrayList<>();
