@@ -16,9 +16,11 @@ public class KBase{
     ArrayList<String> clause;
     ArrayList<Integer> count;
     ArrayList<String> fact;
+    ArrayList<String> symbols;
     String query;
     String[] sentences;
     public KBase(){
+        symbols = new ArrayList();
         agenda = new ArrayList();
         clause = new ArrayList();
         count = new ArrayList();
@@ -35,7 +37,30 @@ public class KBase{
                 clause.add(sentence);
                 count.add(sentence.split("&").length);
             }
+            
+            
+            
         }
+    }
+    
+    public void setSymbols(String[] s){
+        for (String sentence : s) {
+            String[] tempString = sentence.split("&");
+            for (String a:tempString){
+                String[] last = a.split("=>");
+                for(String t:last){
+                    if(!symbols.contains(t)){
+                symbols.add(t);
+                
+                    }
+                }
+            }
+            
+        }
+            
+            
+            
+        
     }
     
     public ArrayList<String> getAgenda(){
@@ -49,5 +74,8 @@ public class KBase{
     }
     public ArrayList<Integer> getCount(){
         return count;
+    }
+    public ArrayList<String> getSymbols(){
+        return symbols;
     }
 }
