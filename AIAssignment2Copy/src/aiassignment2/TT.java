@@ -24,17 +24,17 @@ public class TT extends SearchMethod{
     @Override
     public boolean methodEntails(String query, KBase kb) {
         int ValidModels = 0;
-		boolean[] models = new boolean[kb.count.length()] //number of symbols
-		int temp = models.length();
+		boolean[] models = new boolean[kb.count.length] //number of symbols
+		int temp = models.length;
 		int ModSize = (temp)^2; //total number of permutations
 		for (int i =0; i< ModSize; i++){ // for each permutation of symbols
 			// set true/false
-			for (int j =0; j< kb.symbols.length(); j++){ //for each symbol in the permutation
+			for (int j =0; j< kb.symbols.length; j++){ //for each symbol in the permutation
 				models[j] = ((i&(1<<j)) !=0) //set the true and false values by shifting 1/0 to the correct positons
 			}
 			boolean allTrue = true
 			// check kb is true
-			for (int j =0; j< kb.agenda.length(); j++){ //for each sentence
+			for (int j =0; j< kb.agenda.length; j++){ //for each sentence
 				if(!models[j]) { //
 					allTrue = false
 				}
