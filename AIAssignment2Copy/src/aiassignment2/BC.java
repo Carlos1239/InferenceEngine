@@ -6,6 +6,8 @@
 package aiassignment2;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 /**
  *
@@ -13,18 +15,24 @@ import java.util.ArrayList;
  */
 public class BC extends SearchMethod {
     ArrayList<String> agenda;
+    ArrayList<String> fact;
+
+    ArrayList<String> clause;
+
     KBase KB;
     public BC(){
     code ="BC";
     entails = new ArrayList<>();
     agenda = new ArrayList<>();
+    fact = new ArrayList<>();
+    clause = new ArrayList<>();
     
     }
 
     @Override
     public String methodOutput(boolean entail) {
        String result;
-        
+       //prints results ot backwards for backwards chaining 
        if(entail==true){
            result = "YES:";
            for(int i=entails.size()-1; i>=0;i--){
@@ -33,8 +41,7 @@ public class BC extends SearchMethod {
                else{
                    result += entails.get(i)+",";
                }
-           }
-           
+           }   
        }
        else{
            result ="NO";
@@ -47,29 +54,25 @@ public class BC extends SearchMethod {
     @Override
     public boolean methodEntails(String query, KBase kb) {
         //acquires information from Knowledge base
-        ArrayList<String> fact = KB.getFact();
-        ArrayList<String> clauses = KB.getClauses();
+        fact = kb.getFact();
+        clause = kb.getClauses();
         agenda.add(query);
         a=query;
         while(!agenda.isEmpty()){
-            String ask = agenda.remove(agenda.size()-1); //Backword chaining occurs similarly to DFS 
+            String ask = agenda.remove(agenda.size()-1); //Backword chaining occurs similarly to DFS but going from goal to start point
             entails.add(ask);
             if(!fact.contains(ask)){
                 ArrayList<String> q = new ArrayList<>();
-                for(int i=0;i<clauses.size();i++){
-                if(premiseContains(clauses.get(i),ask)){
-                    ArrayList<String> temp = getClauses(clauses.get(i),agenda);
-                        for (int x=0; x<temp.size();x++){
-                            q.add(temp.get(x));
-                        }
+                clause.stream().filter((c) -> (premiseContains(c,ask))).map((c) -> getClauses(c,agenda)).forEachOrdered((temp) -> {
+                    //checks clauses and sees if it contains the ask
+                    for (int x=0; x<temp.size();x++){
+                        q.add(temp.get(x));
                     }
-                }
+                });
                 if(!q.isEmpty()){
-                    for(int i =0; i<q.size();i++){
-                        if(!entails.contains(q.get(i))){
-                            agenda.add(q.get(i));
-                        }
-                    }
+                    q.stream().filter((p) -> (!entails.contains(p))).forEachOrdered((p) -> {
+                        agenda.add(p);
+                    });
                 }
                 else
                 {
@@ -84,7 +87,7 @@ public class BC extends SearchMethod {
     }
     
     public static ArrayList<String> getClauses(String clause, ArrayList<String> agenda){
-       
+       //splits up implications 
         String premise = clause.split("=>")[0];
         ArrayList<String> temp = new ArrayList<>();
         String [] conjuncts = premise.split("&");
@@ -98,6 +101,7 @@ public class BC extends SearchMethod {
 
     @Override
     public boolean premiseContains(String clause, String ask) {
+        //checks if the ask is in the clause
         String premise = clause.split("=>")[1];
         return premise.equals(ask);
     }
