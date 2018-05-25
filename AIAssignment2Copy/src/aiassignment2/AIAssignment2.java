@@ -24,7 +24,6 @@ public class AIAssignment2 {
             readProblemFile(args[1], kb);
             
         }catch(Exception e){
-            e.printStackTrace();
         }
         
         String method = args[0];
@@ -69,19 +68,20 @@ public class AIAssignment2 {
 			BufferedReader buff = new BufferedReader(reader);
 			
                         String tell;
-                        String line = buff.readLine();
-                        if(line.equalsIgnoreCase("Tell")){
+                        String line = buff.readLine().toUpperCase();
+                        if(line.equalsIgnoreCase("TELL")){
                             line = buff.readLine();
                             tell=line.replaceAll("\\s","");
                             sentencesArray = tell.split(";");
                          
                             kb.KBaseSenteces(sentencesArray);
+                            kb.setSymbols(sentencesArray);
                             
                             
                         }
                         String ask;
-                        line = buff.readLine();
-                        if(line.equalsIgnoreCase("Ask")){
+                        line = buff.readLine().toUpperCase();
+                        if(line.equalsIgnoreCase("ASK")){
                             line = buff.readLine();
                             ask = line.replaceAll("\\s","");
                             query = ask;
