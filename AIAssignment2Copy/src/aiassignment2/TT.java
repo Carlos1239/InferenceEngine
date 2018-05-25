@@ -30,19 +30,19 @@ public class TT extends SearchMethod{
 		for (int i =0; i< ModSize; i++){ // for each permutation of symbols
 			// set true/false
 			for (int j =0; j< kb.symbols.length; j++){ //for each symbol in the permutation
-				models[j] = ((i&(1<<j)) !=0) //set the true and false values by shifting 1/0 to the correct positons
+				models[j] = ((i&(1<<j)) !=0); //set the true and false values by shifting 1/0 to the correct positons
 			}
-			boolean allTrue = true
+			boolean allTrue = true;
 			// check kb is true
 			for (int j =0; j< kb.agenda.length; j++){ //for each sentence
 				if(!models[j]) { //
-					allTrue = false
+					allTrue = false;
 				}
 			}
 			//check if ask is true
-			boolean ask = false
+			boolean ask = false;
 			if (askIsTrue()) {
-				ask = true
+				ask = true;
 			}
 			
 			if (allTrue && ask){
