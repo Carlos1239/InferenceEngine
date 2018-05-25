@@ -56,23 +56,27 @@ public class FC extends SearchMethod {
             ListIterator itc = clauses.listIterator();
             
             while(itc.hasNext()){
-          
                 String ask = agenda.remove(0);
                 entails.add(ask);
-                for(int i=0;i<clauses.size();i++){
-                    if(premiseContains(clauses.get(i),ask)){
+                Integer i = 0;
+                
+                for(String j:clauses){
+                    if(premiseContains(j,ask)){
                         Integer x = count.get(i);
                         count.set(i,--x);
                         if(count.get(i)==0){
-                            String prove = clauses.get(i).split("=>")[1];
+                            //Compares all the clauses till the goal has been reached
+                            String prove = j.split("=>")[1];
                             if(prove.equals(query)){
                                 return true;
                             }
                             agenda.add(prove);
                         }
                     }
+                    i++;
                 }
             itc.next();
+            
         }
             
         }
@@ -90,5 +94,10 @@ public class FC extends SearchMethod {
             return Arrays.asList(conjuncts).contains(ask);     
         }
     }
-   
+    
+    
+    
+    
+    
+    
 }
